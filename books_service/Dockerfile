@@ -1,6 +1,16 @@
-# Dockerfile para Books Service
-FROM python:3.8-slim
+# Use uma imagem base do Python
+FROM python:3.9-slim
+
+# Defina o diretório de trabalho no container
 WORKDIR /app
-COPY books_service.py /app
-RUN pip install Flask Flask-JWT-Extended
-CMD ["python", "books_service.py"]
+
+# Copie os arquivos requirements.txt e instale as dependências
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+RUN python app/models.py
+
+# Copie o restante do código da aplicação para o diretório de trabalho
+COPY . .
+
+# Defina o comando para rodar a aplicação com Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5002", "books_service:app"]

@@ -1,9 +1,23 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+import os
 
-app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'super-secret'
+db = SQLAlchemy()
+jwt = JWTManager()
 
-jwt = JWTManager(app)
+def create_app():
+    app = Flask(__name__)
+    db_path = os.path.join(os.path.dirname(__file__), 'books.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+    app.config['JWT_SECRET_KEY'] = 'super-secret'
 
-from . import routes
+    db.init_app(app)
+    jwt.init_app(app)
+
+    with app.app_context():
+        from . import routes
+        routes.init_routes(app)
+        db.create_all()  # Cria o banco de dados
+
+    return app

@@ -1,7 +1,10 @@
+import os
 import sqlite3
 
 def init_db():
-    conn = sqlite3.connect('users.db')
+    # Define o caminho do banco de dados dentro do diretório 'app'
+    db_path = os.path.join(os.path.dirname(__file__), 'books.db') 
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
