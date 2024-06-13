@@ -1,26 +1,33 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template, redirect, url_for
 from flask_jwt_extended import create_access_token, jwt_required
 from .models import User, db
 
 def init_routes(app):
     @app.route('/')
     def index():
-        return 'Welcome to the Auth Service!'
+        return render_template('index.html')
 
-    @app.route('/auth/register', methods=['POST'])
-    def register():
-        data = request.get_json()
-        new_user = User(username=data['username'], password=data['password'])
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify(message="User created"), 201
-
-    @app.route('/auth/login', methods=['POST'])
+    @app.route('/login', methods=['GET', 'POST'])
     def login():
-        data = request.get_json()
-        user = User.query.filter_by(username=data['username']).first()
-        if user and user.password == data['password']:
-            access_token = create_access_token(identity={'username': user.username})
-            return jsonify(access_token=access_token), 200
-        else:
-            return jsonify(message="Invalid credentials"), 401
+        if request.method == 'POST':
+            data = request.form
+            user = User.query.filter_by(username=data['username']).first()
+            if user and user.password == data['password']:
+                access_token = create_access_token(identity={'username': user.username})
+                # Redirecionar para o serviço de livros com o token como parâmetro na URL
+                return redirect(f'http://127.0.0.1:5002/?token={access_token}')
+            else:
+                return 'Invalid credentials', 401
+        return render_template('login.html')
+
+    @app.route('/register', methods=['GET', 'POST'])
+    def register():
+        if request.method == 'POST':
+            data = request.form
+            new_user = User(username=data['username'], password=data['password'])
+            db.session.add(new_user)
+            db.session.commit()
+            access_token = create_access_token(identity={'username': new_user.username})
+            # Redirecionar para o serviço de livros com o token como parâmetro na URL
+            return redirect(f'http://127.0.0.1:5002/?token={access_token}')
+        return render_template('register.html')
