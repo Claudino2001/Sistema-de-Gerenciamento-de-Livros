@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Book</title>
+</head>
+<body>
+    <h2>Delete Book</h2>
+    <form action="/delete_book" method="post">
+        <label for="book_id">Book ID:</label>
+        <input type="text" id="book_id" name="book_id" required>
+        <input type="hidden" name="token" value="{{ token }}">
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

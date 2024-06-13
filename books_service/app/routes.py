@@ -46,36 +46,28 @@ def init_routes(app):
         else:
             return 'Token is required', 400
 
-    @app.route('/edit_book/<int:id>', methods=['GET', 'POST'])
-    def edit_book(id):
-        token = request.args.get('token')
-        if token:
+    @app.route('/delete_book', methods=['POST'])
+    def delete_book_form():
+        book_id = request.form.get('book_id')
+        token = request.form.get('token')
+        if book_id and token:
             try:
                 decoded_token = decode_token(token)
-                book = Book.query.get(id)
-                if request.method == 'POST':
-                    data = request.form
-                    book.title = data['title']
-                    book.author = data['author']
-                    db.session.commit()
-                    return redirect(url_for('get_books', token=token))
-                return render_template('edit_book.html', book=book, token=token)
-            except:
-                return 'Invalid or expired token', 401
-        else:
-            return 'Token is required', 400
-
-    @app.route('/delete_book/<int:id>', methods=['POST'])
-    def delete_book(id):
-        token = request.args.get('token')
-        if token:
-            try:
-                decoded_token = decode_token(token)
-                book = Book.query.get(id)
+                book = Book.query.get(book_id)
+                if not book:
+                    return 'Book not found', 404
                 db.session.delete(book)
                 db.session.commit()
                 return redirect(url_for('get_books', token=token))
             except:
                 return 'Invalid or expired token', 401
+        else:
+            return 'Book ID and token are required', 400
+
+    @app.route('/delete_book_form', methods=['GET'])
+    def render_delete_book_form():
+        token = request.args.get('token')
+        if token:
+            return render_template('delete_book.html', token=token)
         else:
             return 'Token is required', 400
