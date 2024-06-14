@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "95e92d35-10aa-402e-b332-f8ceefb9cd72",
+		"name": "Book Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27380596"
+	},
+	"item": [
+		{
+			"name": "Listar Todos os Livros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5002/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar um Novo Usuário",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logar com o Usuário",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adicionar um Novo Livro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxODE2Nzk4NSwianRpIjoiZDBmMmQxMTEtZTBkMi00MGViLWExMTEtODAwOTc1YWU1ZTA5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1c2VybmFtZSI6InRlc3R1c2VyIn0sIm5iZiI6MTcxODE2Nzk4NSwiY3NyZiI6IjI1ZDc5ZjNiLTgwNzUtNGJiZS04ZDg4LTlhMGNiZTRjZTU1MSIsImV4cCI6MTcxODE2ODg4NX0.7r1DAWuxFzvGPXxFEP0VDpgf4zxR5DNibRagyU0dfXg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"O Senhor dos Aneis\",\n  \"author\": \"Godofredo Segundo\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar um Livro Existente",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxODI5NTI4MCwianRpIjoiNTNjYjgzMWItOTc3Ni00YjIzLWE0ZWUtMGQ2ZDg1ZjZmYWE3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1c2VybmFtZSI6IkdhYnJpZWxDbGF1ZGlubyJ9LCJuYmYiOjE3MTgyOTUyODAsImNzcmYiOiI1Y2RmOWFlYi1jOWNmLTRjMzQtYmM4ZS1lYTk5NjRjNWU0YjQiLCJleHAiOjE3MTgyOTYxODB9.l8OkrUD3PDvd6eGGZqwQFqJqneq8vBAfmNDFlR_y6NU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"Godofredo Segundo\",\n    \"title\": \"O Senhor\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/books/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"books",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover um Livro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxODE2ODk4MywianRpIjoiNTlkYjE2MjgtNGVjMi00YzJkLWE5OTktZmUyZTM5MzhjYTNhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1c2VybmFtZSI6InRlc3R1c2VyIn0sIm5iZiI6MTcxODE2ODk4MywiY3NyZiI6Ijc0ZjRiMWZmLTBhODQtNGI5Yi1iOTUwLWJkM2RlZTk5MjQ1NyIsImV4cCI6MTcxODE2OTg4M30.UtxxzZEd15TuMHuc3r458xBtFX1hGLHFOAzim8OAQeE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5002/books/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"books",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
