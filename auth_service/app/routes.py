@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from flask import request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required
 from .models import User, db
@@ -11,9 +12,17 @@ def init_routes(app):
     def register():
         data = request.get_json()
         new_user = User(username=data['username'], password=data['password'])
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify(message="User created"), 201
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            access_token = create_access_token(identity={'username': new_user.username})
+            return jsonify(message="User created", access_token=access_token), 201
+        except IntegrityError:
+            db.session.rollback()
+            return jsonify(message="Username already exists"), 400
+        except Exception as e:
+            db.session.rollback()
+            return jsonify(message="An error occurred while creating the user"), 500
 
     @app.route('/auth/login', methods=['POST'])
     def login():
