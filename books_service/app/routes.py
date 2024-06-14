@@ -71,3 +71,27 @@ def init_routes(app):
             return render_template('delete_book.html', token=token)
         else:
             return 'Token is required', 400
+
+    ######################## ROTA DE UPDATE ###########################
+
+    @app.route('/edit_book/<int:id>', methods=['GET', 'POST'])
+    def edit_book(id):
+        token = request.args.get('token')
+        if token:
+            try:
+                decoded_token = decode_token(token)
+                book = Book.query.get(id)
+                if not book:
+                    return 'Book not found', 404
+                
+                if request.method == 'POST':
+                    book.title = request.form.get('title')
+                    book.author = request.form.get('author')
+                    db.session.commit()
+                    return redirect(url_for('get_books', token=token))
+                
+                return render_template('edit_book.html', book=book, token=token)
+            except:
+                return 'Invalid or expired token', 401
+        else:
+            return 'Token is required', 400
