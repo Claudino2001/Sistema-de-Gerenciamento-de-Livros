@@ -16,4 +16,4 @@ Este é um projeto simples para gerenciar um catálogo de livros, permitindo adi
 1. Clone o repositório:
    ```bash
    git clone https://github.com/Claudino2001/Sistema-de-Gerenciamento-de-Livros
-   cd book-management-system
+   cd Sistema-de-Gerenciamento-de-Livros
